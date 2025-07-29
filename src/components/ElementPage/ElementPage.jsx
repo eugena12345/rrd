@@ -1,11 +1,15 @@
 import { useLocation, useParams } from "react-router-dom";
 
 const ElementPage = () => {
-    const {id, elementId} = useParams();
-    const element = useLocation();
-    console.log(element.state);
+  const { id, elementId } = useParams();
+  const element = useLocation();
+  if (!element.state) {
+    return (
+      <div>Такой элемент не найден, попробуйте выбрать что-нибудь из имеющихся категорий</div>
+    )
+  }
 
-    if (id === 'characters') {
+  if (id === 'characters') {
     return (
       <div className="entity-info">
         <h2>{element.state.name}</h2>
@@ -40,9 +44,10 @@ const ElementPage = () => {
       </div>
     );
   }
-    return (
-        <div>Такой элемент не найден, попробуйте выбрать что-нибудь из имеющихся категорий</div>
-    )
+
+  return (
+    <div>Такой элемент не найден, попробуйте выбрать что-нибудь из имеющихся категорий</div>
+  )
 }
 
 export default ElementPage;

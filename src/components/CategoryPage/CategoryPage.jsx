@@ -3,27 +3,38 @@ import characters from "./../../data/characters.json";
 import episode from "./../../data/episode.json";
 import location from "./../../data/location.json";
 
+const categoriesName = {
+    characters: {
+        name: 'Персонажи',
+        data: characters
+    },
+    episode: {
+        name: 'Эпизоды',
+        data: episode
+    },
+    location: {
+        name: 'Локации',
+        data: location
+    },
+};
 
 const CategoryPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const categoriesName = {
-        characters: {
-            name: 'Персонажи',
-            data: characters
-        },
-        episode: {
-            name: 'Эпизоды',
-            data: episode
-        },
-        location: {
-            name: 'Локации',
-            data: location
-        },
+    const isRealCategory = () => {
+        const categories = Object.keys(categoriesName);
+        if (categories.includes(id)) {
+            return true;
+        }
+        return false;
+
+    }
+
+    if (!isRealCategory()) {
+        return (<div>Нет такой категории, попробуйте выбрать категорию из меню</div>)
     };
 
     const onCategoryClick = (categoryName, item) => {
-
         const path = `/categories/${categoryName}/${item.id}`;
         navigate(path, { state: item });
     }
