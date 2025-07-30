@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import characters from "./../../data/characters.json";
 import episode from "./../../data/episode.json";
 import location from "./../../data/location.json";
+import { useAuthContext } from "../../context/AuthContext";
 
 const categoriesName = {
     characters: {
@@ -21,13 +22,13 @@ const categoriesName = {
 const CategoryPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const value = useAuthContext();
     const isRealCategory = () => {
         const categories = Object.keys(categoriesName);
         if (categories.includes(id)) {
             return true;
         }
         return false;
-
     }
 
     if (!isRealCategory()) {
@@ -40,6 +41,7 @@ const CategoryPage = () => {
     }
     return (
         <div>
+            <div>Приветствую, {value.user || 'Guest'}</div>
             <h1>Название категории: {categoriesName[id].name}</h1>
             <p>Вы видите список элементов из данной категории. При нажатии на элемент, откроется детальная информация об элементе.</p>
             <div className="elements">

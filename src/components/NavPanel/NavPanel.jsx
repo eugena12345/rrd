@@ -1,4 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
+import AuthStatus from "../authStatus/AuthStatus";
 
 
 const NavPanel = () => {
@@ -11,6 +12,7 @@ const NavPanel = () => {
                 )
             })}
             <li><NavLink to='/'>На главную</NavLink></li>
+            <li><AuthStatus /></li>
         </ul>
     )
 }
