@@ -1,14 +1,15 @@
-//import { createContext } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import './App.css'
 import MainPage from './components/MainPage/MainPage'
-import CategoryPage from './components/CategoryPage/CategoryPage'
 import NotFoundPage from './components/NotFoundPage/NotFoundPage'
 import NavPanel from './components/NavPanel/NavPanel'
-import ElementPage from './components/ElementPage/ElementPage'
 import { LoginContextProvider } from './context/AuthContext'
 import Login from './components/Login/Login'
 import { PrivateRoute } from './components/PrivateRoute/PrivateRoute'
+import { lazy, Suspense } from 'react'
+
+const ElementPage = lazy(() => import('./components/ElementPage/ElementPage'));
+const CategoryPage = lazy(() => import('./components/CategoryPage/CategoryPage'));
 
 function App() {
   return (
@@ -19,10 +20,17 @@ function App() {
         <Routes>
           <Route path='/' element={<MainPage />} />
           <Route path='/categories/*' >
-            {/* <Route index element={<PrivateRoute><ElementPage /></PrivateRoute>} /> */}
             <Route path=':id/*'>
-              <Route index element={<PrivateRoute><CategoryPage /></PrivateRoute>} />
-              <Route path=':elementId' element={<PrivateRoute><ElementPage /></PrivateRoute>} />
+              <Route index element={<PrivateRoute>
+                <Suspense fallback={<div>Загрузка...</div>}>
+                  <CategoryPage />
+                </Suspense>
+              </PrivateRoute>} />
+              <Route path=':elementId' element={<PrivateRoute>
+                <Suspense fallback={<div>Загрузка...</div>}>
+                  <ElementPage />
+                </Suspense>
+              </PrivateRoute>} />
             </Route>
           </Route>
           <Route path='/login' element={<Login />} />
