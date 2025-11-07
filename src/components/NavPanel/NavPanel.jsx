@@ -3,7 +3,7 @@ import AuthStatus from "../authStatus/AuthStatus";
 
 
 const NavPanel = () => {
-    const categories = ['characters', 'episode', 'location']
+    const categories = ['character', 'episode', 'location']
     return (
         <ul className="navlist">
             {categories.map((category) => {

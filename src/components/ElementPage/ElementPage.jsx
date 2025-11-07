@@ -9,7 +9,7 @@ const ElementPage = () => {
     )
   }
 
-  if (id === 'characters') {
+  if (id === 'character') {
     return (
       <div className="entity-info">
         <h2>{element.state.name}</h2>
