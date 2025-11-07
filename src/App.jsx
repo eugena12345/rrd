@@ -7,6 +7,7 @@ import { LoginContextProvider } from './context/AuthContext'
 import Login from './components/Login/Login'
 import { PrivateRoute } from './components/PrivateRoute/PrivateRoute'
 import { lazy, Suspense } from 'react'
+import ErrorBoundary from './ErrorBoundary';
 
 const ElementPage = lazy(() => import('./components/ElementPage/ElementPage'));
 const CategoryPage = lazy(() => import('./components/CategoryPage/CategoryPage'));
@@ -16,27 +17,30 @@ function App() {
     <>
       <LoginContextProvider>
         <NavPanel />
+        <ErrorBoundary>
+          <Routes>
+            <Route path='/' element={<MainPage />} />
 
-        <Routes>
-          <Route path='/' element={<MainPage />} />
-          <Route path='/categories/*' >
-            <Route path=':id/*'>
-              <Route index element={<PrivateRoute>
-                <Suspense fallback={<div>Загрузка...</div>}>
-                  <CategoryPage />
-                </Suspense>
-              </PrivateRoute>} />
-              <Route path=':elementId' element={<PrivateRoute>
-                <Suspense fallback={<div>Загрузка...</div>}>
-                  <ElementPage />
-                </Suspense>
-              </PrivateRoute>} />
+            <Route path='/categories/*' >
+              <Route path=':id/*'>
+                <Route index element={<PrivateRoute>
+                  <Suspense fallback={<div>Загрузка...</div>}>
+                    <CategoryPage />
+                  </Suspense>
+                </PrivateRoute>} />
+                <Route path=':elementId' element={<PrivateRoute>
+                  <Suspense fallback={<div>Загрузка...</div>}>
+                    <ElementPage />
+                  </Suspense>
+                </PrivateRoute>} />
+              </Route>
             </Route>
-          </Route>
-          <Route path='/login' element={<Login />} />
+            <Route path='/login' element={<Login />} />
 
-          <Route path='*' element={<NotFoundPage />} />
-        </Routes>
+            <Route path='*' element={<NotFoundPage />} />
+          </Routes>
+        </ErrorBoundary>
+
       </LoginContextProvider>
 
     </>
